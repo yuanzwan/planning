@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>an_map_manager</name>
+  <version>0.0.0</version>
+  <description>The an_map_manager package - reads in a text file laying out the lanes and road parameters - publishes visualization markers to rviz and map data on latched topic </description>
+
+  <maintainer email="jon@robotwits.com">RobotWits</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>visualization_msgs</depend>
+  <depend>an_messages</depend>
+
+
+
+
+</package>
