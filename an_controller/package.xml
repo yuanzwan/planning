@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>an_controller</name>
+  <version>0.0.1</version>
+  <description>The an_controller package takes a trajectory as input then moves along trajectory publishing vehicle poses.</description>
+
+  <maintainer email="jon@robotwits.com">Robotwits</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>nav_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>an_messages</depend>
+  <depend>tf</depend>
+
+</package>
