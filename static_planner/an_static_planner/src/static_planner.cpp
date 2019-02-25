@@ -154,7 +154,7 @@ bool Planner::checkCollision(double ego_x, double ego_y, double theta, an_messag
 }
 
 // generate successors of current node using different motion primitives
-std::vector<Node> Planner::generateSuccessors(const Node& node) {
+std::vector<Node> Planner::generateSuccessors(const Node& node, double epsilon) {
     std::vector<Node> neighbors;
     for (int i = 0; i < motions_.size(); ++i) {
             int lane = node.lane + static_cast<int>((motions_[i].end[1] - motions_[i].start[1]) / kLaneWidth);
@@ -187,7 +187,7 @@ std::vector<Node> Planner::generateSuccessors(const Node& node) {
                             }
                     }
                     if (!is_collision) {
-                            neighbors.emplace_back(Node{ lane, station, node.g_value + motions_[i].cost + heuristic(lane, station),
+                            neighbors.emplace_back(Node{ lane, station, node.g_value + motions_[i].cost + epsilon * (lane, station),
                                     node.g_value + motions_[i].cost, i });
                     }
             }
@@ -195,7 +195,7 @@ std::vector<Node> Planner::generateSuccessors(const Node& node) {
     return neighbors;
 }
 
-//Implements A* search
+//Implements A*/weighted A* search
 void Planner::plan() {
     generateMap();
     //closed stores whether one node has been expanded and by which motion is it expanded
@@ -206,7 +206,8 @@ void Planner::plan() {
     int start_station = static_cast<int>(start_.pose.position.x / kStationLength);
     int goal_lane = static_cast<int>(goal_.pose.position.y / kLaneWidth);
     int goal_station = static_cast<int>(goal_.pose.position.x / kStationLength);
-    open.push(Node{start_lane, start_station, 0 + heuristic(start_lane, start_station), 0, 0 });
+    double epsilon = 1.0;
+    open.push(Node{start_lane, start_station, 0 + epsilon * (start_lane, start_station), 0, 0 });
     while (!open.empty()) {
             auto node = open.top();
             open.pop();
@@ -217,7 +218,7 @@ void Planner::plan() {
             }
             if (closed[node.lane][node.station] == -1) {
                     closed[node.lane][node.station] = node.motion_id;
-                    auto neighbors = generateSuccessors(node);
+                    auto neighbors = generateSuccessors(node, epsilon);
                     for (auto& neighbor : neighbors) {
                             if (closed[neighbor.lane][neighbor.station] == -1) {
                                     open.push(neighbor);
