@@ -76,7 +76,7 @@ public:
     void generateMap();
     bool loadMprim();
     bool init();
-    double heuristic(int lane, int station);
+    double heuristic(int lane, int station, double epsilon = 1.0);
     bool onSegment(Point& start, Point& end, Point& pt);
     int order(Point& start, Point& end, Point& pt);
     bool intersection(Point& seg1_start, Point& seg1_end, Point& seg2_start, Point& seg2_end);
